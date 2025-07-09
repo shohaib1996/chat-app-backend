@@ -3,6 +3,7 @@ import UserRoutes from '../modules/users/user.routes';
 import MessageRoutes from '../modules/messages/message.routes';
 import GroupRoutes from '../modules/groups/group.routes';
 import GroupMemberRoutes from '../modules/groupmembers/groupmember.routes';
+import SearchRoutes from '../modules/search/search.routes';
 
 const router = Router();
 
@@ -22,6 +23,10 @@ const moduleRoutes = [
   {
     path: '/groupmembers',
     route: GroupMemberRoutes,
+  },
+  {
+    path: '/search',
+    route: SearchRoutes,
   },
 ];
 
