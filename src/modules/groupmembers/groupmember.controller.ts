@@ -32,7 +32,10 @@ export const getGroupMemberById = async (req: Request, res: Response) => {
 
 export const getGroupMembers = async (req: Request, res: Response) => {
   const { groupId, userId } = req.query;
-  const groupMembers = await groupMemberService.getGroupMembers(groupId as string, userId as string);
+  const groupMembers = await groupMemberService.getGroupMembers(
+    groupId as string,
+    userId as string
+  );
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -43,9 +46,12 @@ export const getGroupMembers = async (req: Request, res: Response) => {
 
 export const updateGroupMember = async (req: Request, res: Response) => {
   const { id } = req.params;
-  console.log('Received ID for update:', id); 
+  console.log('Received ID for update:', id);
   console.log('Received body for update:', req.body);
-  const updatedGroupMember = await groupMemberService.updateGroupMember(id, req.body);
+  const updatedGroupMember = await groupMemberService.updateGroupMember(
+    id,
+    req.body
+  );
   sendResponse(res, {
     statusCode: 200,
     success: true,

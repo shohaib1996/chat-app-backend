@@ -24,7 +24,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
 export const getProfile = async (req: Request, res: Response) => {
   // const userId = req.user?.id;
-  const userId = "686dfe91ce75eb7357ad2db5";
+  const userId = '686dfe91ce75eb7357ad2db5';
   if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
   const user = await userService.updateUser(userId, {});
@@ -37,9 +37,8 @@ export const getProfile = async (req: Request, res: Response) => {
 };
 
 export const updateProfile = async (req: Request, res: Response) => {
-
   // const userId = req.user?.id;
-  const userId = "686dfe91ce75eb7357ad2db5";
+  const userId = '686dfe91ce75eb7357ad2db5';
   if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
   const updatedUser = await userService.updateUser(userId, req.body);

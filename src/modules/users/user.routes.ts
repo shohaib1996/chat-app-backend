@@ -5,9 +5,17 @@ import { createUserSchema, updateUserSchema } from './user.validation';
 
 const router = Router();
 
-router.post('/register', validateRequest(createUserSchema), userController.registerUser);
+router.post(
+  '/register',
+  validateRequest(createUserSchema),
+  userController.registerUser
+);
 
 router.get('/profile', userController.getProfile);
-router.put('/profile', validateRequest(updateUserSchema), userController.updateProfile);
+router.put(
+  '/profile',
+  validateRequest(updateUserSchema),
+  userController.updateProfile
+);
 
 export default router;

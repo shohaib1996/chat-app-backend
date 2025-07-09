@@ -1,4 +1,3 @@
-
 import bcrypt from 'bcryptjs';
 import { IUser } from './user.interface';
 import prisma from '@/config/database';
@@ -45,7 +44,7 @@ export const updateUser = async (
     name?: string;
     avatarUrl?: string;
     status?: string;
-  },
+  }
 ): Promise<IUser> => {
   const user = await prisma.user.update({
     where: { id: userId },

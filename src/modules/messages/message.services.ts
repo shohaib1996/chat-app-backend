@@ -1,9 +1,15 @@
 import { PrismaClient } from '@prisma/client';
-import { ICreateMessagePayload, IUpdateMessagePayload, IMessage } from './message.interface';
+import {
+  ICreateMessagePayload,
+  IUpdateMessagePayload,
+  IMessage,
+} from './message.interface';
 
 const prisma = new PrismaClient();
 
-export const createMessage = async (payload: ICreateMessagePayload): Promise<IMessage> => {
+export const createMessage = async (
+  payload: ICreateMessagePayload
+): Promise<IMessage> => {
   const message = await prisma.message.create({
     data: payload,
   });
@@ -17,21 +23,19 @@ export const getMessageById = async (id: string): Promise<IMessage | null> => {
   return message;
 };
 
-export const getMessages = async (senderId?: string, receiverId?: string, groupId?: string): Promise<IMessage[]> => {
+export const getMessages = async (
+  senderId?: string,
+  receiverId?: string,
+  groupId?: string
+): Promise<IMessage[]> => {
   const messages = await prisma.message.findMany({
     where: {
       OR: [
         {
-          AND: [
-            { senderId: senderId },
-            { receiverId: receiverId },
-          ],
+          AND: [{ senderId: senderId }, { receiverId: receiverId }],
         },
         {
-          AND: [
-            { senderId: receiverId },
-            { receiverId: senderId },
-          ],
+          AND: [{ senderId: receiverId }, { receiverId: senderId }],
         },
       ],
       groupId: groupId,
@@ -43,7 +47,10 @@ export const getMessages = async (senderId?: string, receiverId?: string, groupI
   return messages;
 };
 
-export const updateMessage = async (id: string, payload: IUpdateMessagePayload): Promise<IMessage> => {
+export const updateMessage = async (
+  id: string,
+  payload: IUpdateMessagePayload
+): Promise<IMessage> => {
   const message = await prisma.message.update({
     where: { id },
     data: payload,

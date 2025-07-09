@@ -1,9 +1,15 @@
 import { PrismaClient } from '@prisma/client';
-import { ICreateGroupPayload, IUpdateGroupPayload, IGroup } from './group.interface';
+import {
+  ICreateGroupPayload,
+  IUpdateGroupPayload,
+  IGroup,
+} from './group.interface';
 
 const prisma = new PrismaClient();
 
-export const createGroup = async (payload: ICreateGroupPayload): Promise<IGroup> => {
+export const createGroup = async (
+  payload: ICreateGroupPayload
+): Promise<IGroup> => {
   const group = await prisma.group.create({
     data: payload,
   });
@@ -22,7 +28,10 @@ export const getGroups = async (): Promise<IGroup[]> => {
   return groups;
 };
 
-export const updateGroup = async (id: string, payload: IUpdateGroupPayload): Promise<IGroup> => {
+export const updateGroup = async (
+  id: string,
+  payload: IUpdateGroupPayload
+): Promise<IGroup> => {
   const group = await prisma.group.update({
     where: { id },
     data: payload,

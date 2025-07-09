@@ -1,8 +1,8 @@
-import { Router } from "express";
-import UserRoutes from "../modules/users/user.routes";
-import MessageRoutes from "../modules/messages/message.routes";
-import GroupRoutes from "../modules/groups/group.routes";
-import GroupMemberRoutes from "../modules/groupmembers/groupmember.routes";
+import { Router } from 'express';
+import UserRoutes from '../modules/users/user.routes';
+import MessageRoutes from '../modules/messages/message.routes';
+import GroupRoutes from '../modules/groups/group.routes';
+import GroupMemberRoutes from '../modules/groupmembers/groupmember.routes';
 
 const router = Router();
 
@@ -25,6 +25,6 @@ const moduleRoutes = [
   },
 ];
 
-moduleRoutes.forEach((route) => router.use(route.path, route.route));
+moduleRoutes.forEach(route => router.use(route.path, route.route));
 
 export default router;
