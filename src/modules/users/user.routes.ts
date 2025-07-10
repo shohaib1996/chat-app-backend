@@ -18,4 +18,6 @@ router.put(
   userController.updateProfile
 );
 
+router.get('/users', userController.getAllUsers);
+
 export default router;

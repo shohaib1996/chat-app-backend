@@ -59,3 +59,15 @@ export const updateUser = async (
     status: user.status ?? undefined,
   };
 };
+
+export const getUsers = async (): Promise<IUser[]> => {
+  const users = await prisma.user.findMany();
+
+  return users.map(user => ({
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    avatarUrl: user.avatarUrl ?? undefined,
+    status: user.status ?? undefined,
+  }));
+};

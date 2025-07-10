@@ -49,3 +49,13 @@ export const updateProfile = async (req: Request, res: Response) => {
     data: updatedUser,
   });
 };
+
+export const getAllUsers = async (req: Request, res: Response) => {
+  const users = await userService.getUsers();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Users retrieved successfully',
+    data: users,
+  });
+};

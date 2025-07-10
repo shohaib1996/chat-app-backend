@@ -1,3 +1,5 @@
+import { IUser } from '../users/user.interface';
+
 export interface IMessage {
   id: string;
   text: string | null;
@@ -9,6 +11,8 @@ export interface IMessage {
   groupId: string | null;
   seen: boolean;
   createdAt: Date;
+  sender: IUser;
+  receiver: IUser | null;
 }
 
 export interface ICreateMessagePayload {

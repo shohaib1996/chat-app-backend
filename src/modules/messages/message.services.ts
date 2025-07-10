@@ -12,6 +12,10 @@ export const createMessage = async (
 ): Promise<IMessage> => {
   const message = await prisma.message.create({
     data: payload,
+    include: {
+      sender: true,
+      receiver: true,
+    },
   });
   return message;
 };
@@ -19,6 +23,10 @@ export const createMessage = async (
 export const getMessageById = async (id: string): Promise<IMessage | null> => {
   const message = await prisma.message.findUnique({
     where: { id },
+    include: {
+      sender: true,
+      receiver: true,
+    },
   });
   return message;
 };
@@ -40,6 +48,10 @@ export const getMessages = async (
       ],
       groupId: groupId,
     },
+    include: {
+      sender: true,
+      receiver: true,
+    },
     orderBy: {
       createdAt: 'asc',
     },
@@ -54,6 +66,10 @@ export const updateMessage = async (
   const message = await prisma.message.update({
     where: { id },
     data: payload,
+    include: {
+      sender: true,
+      receiver: true,
+    },
   });
   return message;
 };
@@ -61,6 +77,10 @@ export const updateMessage = async (
 export const deleteMessage = async (id: string): Promise<IMessage> => {
   const message = await prisma.message.delete({
     where: { id },
+    include: {
+      sender: true,
+      receiver: true,
+    },
   });
   return message;
 };
