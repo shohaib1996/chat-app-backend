@@ -32,9 +32,15 @@ export const createUser = async (data: {
   };
 };
 
-export const getUserByEmail = async (email: string) => {
+export const getUserByEmail = async (email: string): Promise<IUser | null> => {
   return prisma.user.findUnique({
     where: { email },
+  });
+};
+
+export const getUserById = async (id: string): Promise<IUser | null> => {
+  return prisma.user.findUnique({
+    where: { id },
   });
 };
 

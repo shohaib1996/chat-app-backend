@@ -2,7 +2,10 @@ import { Request, Response } from 'express';
 import * as messageService from './message.services';
 import sendResponse from '@/utils/sendResponse';
 
-export const createMessage = async (req: Request, res: Response) => {
+export const createMessage = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const message = await messageService.createMessage(req.body);
   sendResponse(res, {
     statusCode: 201,
@@ -12,7 +15,10 @@ export const createMessage = async (req: Request, res: Response) => {
   });
 };
 
-export const getMessageById = async (req: Request, res: Response) => {
+export const getMessageById = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { id } = req.params;
   const message = await messageService.getMessageById(id);
   if (!message) {
@@ -30,7 +36,10 @@ export const getMessageById = async (req: Request, res: Response) => {
   });
 };
 
-export const getMessages = async (req: Request, res: Response) => {
+export const getMessages = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { senderId, receiverId, groupId } = req.query;
   const messages = await messageService.getMessages(
     senderId as string,
@@ -45,7 +54,10 @@ export const getMessages = async (req: Request, res: Response) => {
   });
 };
 
-export const updateMessage = async (req: Request, res: Response) => {
+export const updateMessage = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { id } = req.params;
   const updatedMessage = await messageService.updateMessage(id, req.body);
   sendResponse(res, {
@@ -56,7 +68,10 @@ export const updateMessage = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteMessage = async (req: Request, res: Response) => {
+export const deleteMessage = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { id } = req.params;
   const deletedMessage = await messageService.deleteMessage(id);
   sendResponse(res, {

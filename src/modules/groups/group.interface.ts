@@ -8,6 +8,7 @@ export interface IGroup {
 export interface ICreateGroupPayload {
   name: string;
   avatarUrl?: string;
+  memberIds: string[];
 }
 
 export interface IUpdateGroupPayload {

@@ -29,7 +29,7 @@ export const getGroupMembers = async (
   groupId?: string,
   userId?: string
 ): Promise<IGroupMember[]> => {
-  const where: any = {};
+  const where: { groupId?: string; userId?: string } = {};
   if (groupId) {
     where.groupId = groupId;
   }

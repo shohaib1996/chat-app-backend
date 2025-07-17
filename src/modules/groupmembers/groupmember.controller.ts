@@ -2,7 +2,10 @@ import { Request, Response } from 'express';
 import * as groupMemberService from './groupmember.services';
 import sendResponse from '@/utils/sendResponse';
 
-export const createGroupMember = async (req: Request, res: Response) => {
+export const createGroupMember = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const groupMember = await groupMemberService.createGroupMember(req.body);
   sendResponse(res, {
     statusCode: 201,
@@ -12,7 +15,10 @@ export const createGroupMember = async (req: Request, res: Response) => {
   });
 };
 
-export const getGroupMemberById = async (req: Request, res: Response) => {
+export const getGroupMemberById = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { id } = req.params;
   const groupMember = await groupMemberService.getGroupMemberById(id);
   if (!groupMember) {
@@ -30,7 +36,10 @@ export const getGroupMemberById = async (req: Request, res: Response) => {
   });
 };
 
-export const getGroupMembers = async (req: Request, res: Response) => {
+export const getGroupMembers = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { groupId, userId } = req.query;
   const groupMembers = await groupMemberService.getGroupMembers(
     groupId as string,
@@ -44,10 +53,11 @@ export const getGroupMembers = async (req: Request, res: Response) => {
   });
 };
 
-export const updateGroupMember = async (req: Request, res: Response) => {
+export const updateGroupMember = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { id } = req.params;
-  console.log('Received ID for update:', id);
-  console.log('Received body for update:', req.body);
   const updatedGroupMember = await groupMemberService.updateGroupMember(
     id,
     req.body
@@ -60,7 +70,10 @@ export const updateGroupMember = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteGroupMember = async (req: Request, res: Response) => {
+export const deleteGroupMember = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { id } = req.params;
   const deletedGroupMember = await groupMemberService.deleteGroupMember(id);
   sendResponse(res, {

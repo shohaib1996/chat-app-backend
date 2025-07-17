@@ -7,7 +7,7 @@ interface IApiResponse<T> {
   data?: T;
 }
 
-const sendResponse = <T>(res: Response, data: IApiResponse<T>) => {
+const sendResponse = <T>(res: Response, data: IApiResponse<T>): void => {
   res.status(data.statusCode).json({
     success: data.success,
     message: data.message,

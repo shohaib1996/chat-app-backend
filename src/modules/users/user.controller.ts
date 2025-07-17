@@ -2,7 +2,10 @@ import { Request, Response } from 'express';
 import * as userService from './user.services';
 import sendResponse from '@/utils/sendResponse';
 
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { email } = req.body;
   const existing = await userService.getUserByEmail(email);
   if (existing) {
@@ -22,12 +25,20 @@ export const registerUser = async (req: Request, res: Response) => {
   });
 };
 
-export const getProfile = async (req: Request, res: Response) => {
-  // const userId = req.user?.id;
-  const userId = '686dfe91ce75eb7357ad2db5';
-  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+export const getProfile = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  if (!req.user) {
+    return sendResponse(res, {
+      statusCode: 401,
+      success: false,
+      message: 'Unauthorized',
+    });
+  }
+  const userId = req.user.id;
 
-  const user = await userService.updateUser(userId, {});
+  const user = await userService.getUserById(userId);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -36,10 +47,18 @@ export const getProfile = async (req: Request, res: Response) => {
   });
 };
 
-export const updateProfile = async (req: Request, res: Response) => {
-  // const userId = req.user?.id;
-  const userId = '686dfe91ce75eb7357ad2db5';
-  if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+export const updateProfile = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  if (!req.user) {
+    return sendResponse(res, {
+      statusCode: 401,
+      success: false,
+      message: 'Unauthorized',
+    });
+  }
+  const userId = req.user.id;
 
   const updatedUser = await userService.updateUser(userId, req.body);
   sendResponse(res, {
@@ -50,7 +69,10 @@ export const updateProfile = async (req: Request, res: Response) => {
   });
 };
 
-export const getAllUsers = async (req: Request, res: Response) => {
+export const getAllUsers = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const users = await userService.getUsers();
   sendResponse(res, {
     statusCode: 200,

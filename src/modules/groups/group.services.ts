@@ -8,11 +8,24 @@ import {
 const prisma = new PrismaClient();
 
 export const createGroup = async (
-  payload: ICreateGroupPayload
+  payload: ICreateGroupPayload,
+  creatorId: string
 ): Promise<IGroup> => {
+  const { name, avatarUrl, memberIds } = payload;
+
   const group = await prisma.group.create({
-    data: payload,
+    data: {
+      name,
+      avatarUrl,
+      members: {
+        create: [
+          { userId: creatorId, isAdmin: true },
+          ...memberIds.map(userId => ({ userId, isAdmin: false })),
+        ],
+      },
+    },
   });
+
   return group;
 };
 

@@ -1,25 +1,37 @@
 import { Request, Response } from 'express';
 import { searchUsers, searchGroups } from './search.services';
+import sendResponse from '@/utils/sendResponse';
 
-export const search = async (req: Request, res: Response) => {
+export const search = async (req: Request, res: Response): Promise<void> => {
   const { name, type } = req.query;
 
   if (!name || !type) {
-    return res.status(400).json({ message: 'Missing name or type' });
+    return sendResponse(res, {
+      statusCode: 400,
+      success: false,
+      message: 'Missing name or type',
+    });
   }
 
   try {
     if (type === 'user') {
       const users = await searchUsers(name as string);
-      return res.json(users);
+      return sendResponse(res, { statusCode: 200, success: true, data: users });
     } else if (type === 'group') {
       const groups = await searchGroups(name as string);
-      return res.json(groups);
+      return sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        data: groups,
+      });
     } else {
-      return res.status(400).json({ message: 'Invalid type' });
+      return sendResponse(res, {
+        statusCode: 400,
+        success: false,
+        message: 'Invalid type',
+      });
     }
-  } catch (error) {
-    console.error('Error searching:', error);
-    return res.status(500).json({ message: 'Internal server error' });
+  } catch {
+    return sendResponse(res, { statusCode: 500, success: false, message: 'Internal server error' });
   }
 };

@@ -2,13 +2,13 @@ import { Server } from 'socket.io';
 import registerMessageHandler from './message.handler';
 
 const initializeSocket = (io: Server) => {
-  io.on('connection', (socket) => {
-    console.log('A user connected');
+  io.on('connection', socket => {
+    
 
     registerMessageHandler(io, socket);
 
     socket.on('disconnect', () => {
-      console.log('User disconnected');
+      
     });
   });
 };
