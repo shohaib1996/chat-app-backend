@@ -1,12 +1,12 @@
-import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import config from '@/config';
+import { JwtPayload } from 'jsonwebtoken';
+import { verifyToken } from '../utils/generateToken';
 
 export const authMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+): any => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -16,11 +16,11 @@ export const authMiddleware = (
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, config.NEXTAUTH_SECRET as string) as {
-      id: string;
-      email: string;
-    };
-    req.user = { id: decoded.id, email: decoded.email }; // ✅ attach to req.user
+    const decoded = verifyToken(token) as JwtPayload;
+    if (!decoded) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+    req.user = { id: decoded.user.id, email: decoded.user.email };
     next();
   } catch (err) {
     return res.status(401).json({ message: 'Invalid token', error: err });

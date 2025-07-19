@@ -8,14 +8,14 @@ export const createGroup = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    // if (!req.user) {
-    //   return sendResponse(res, {
-    //     statusCode: 401,
-    //     success: false,
-    //     message: 'Unauthorized',
-    //   });
-    // }
-    const group = await groupServices.createGroup(req.body, "686dfe91ce75eb7357ad2db5");
+    if (!req.user) {
+      return sendResponse(res, {
+        statusCode: 401,
+        success: false,
+        message: 'Unauthorized',
+      });
+    }
+    const group = await groupServices.createGroup(req.body, req.user.id);
     sendResponse(res, { statusCode: 201, success: true, data: group });
   } catch (error) {
     next(error);

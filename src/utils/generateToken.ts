@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 
 export const generateToken = (user: object): string => {
@@ -6,7 +6,9 @@ export const generateToken = (user: object): string => {
     expiresIn: '7d',
   });
 };
-export const verifyToken = (token: string): object | null => {
+export const verifyToken = (
+  token: string
+): string | JwtPayload | null => {
   try {
     return jwt.verify(token, config.JWT_SECRET as string);
   } catch (error) {
