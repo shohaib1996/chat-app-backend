@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { IUser } from './user.interface';
 import prisma from '@/config/database';
+import { generateToken } from '@/utils/generateToken';
 
 export const createUser = async (data: {
   name: string;
@@ -76,4 +77,36 @@ export const getUsers = async (): Promise<IUser[]> => {
     avatarUrl: user.avatarUrl ?? undefined,
     status: user.status ?? undefined,
   }));
+};
+
+export const loginUser = async (
+  email: string,
+  password: string
+): Promise<{ user: IUser | null; token: string | null }> => {
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (!user) {
+    return { user: null, token: null };
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordValid) {
+    return { user: null, token: null };
+  }
+
+  const token = generateToken({ id: user.id, email: user.email });
+
+  return {
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      avatarUrl: user.avatarUrl ?? undefined,
+      status: user.status ?? undefined,
+    },
+    token,
+  };
 };

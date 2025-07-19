@@ -81,3 +81,23 @@ export const getAllUsers = async (
     data: users,
   });
 };
+
+export const loginUser = async (req: Request, res: Response): Promise<void> => {
+  const { email, password } = req.body;
+  const { user, token } = await userService.loginUser(email, password);
+
+  if (!user) {
+    return sendResponse(res, {
+      statusCode: 401,
+      success: false,
+      message: 'Invalid credentials',
+    });
+  }
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'User logged in successfully',
+    data: { user, token },
+  });
+};

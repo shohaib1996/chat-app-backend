@@ -6,9 +6,7 @@ export const generateToken = (user: object): string => {
     expiresIn: '7d',
   });
 };
-export const verifyToken = (
-  token: string
-): string | JwtPayload | null => {
+export const verifyToken = (token: string): string | JwtPayload | null => {
   try {
     return jwt.verify(token, config.JWT_SECRET as string);
   } catch (error) {

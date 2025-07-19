@@ -1,7 +1,11 @@
 import { Router } from 'express';
 import * as userController from './user.controller';
 import validateRequest from '@/middleware/validateRequest';
-import { createUserSchema, updateUserSchema } from './user.validation';
+import {
+  createUserSchema,
+  updateUserSchema,
+  loginUserSchema,
+} from './user.validation';
 
 const router = Router();
 
@@ -19,5 +23,11 @@ router.put(
 );
 
 router.get('/users', userController.getAllUsers);
+
+router.post(
+  '/login',
+  validateRequest(loginUserSchema),
+  userController.loginUser
+);
 
 export default router;

@@ -4,6 +4,7 @@ import {
   getMessages,
   updateMessage,
 } from '../modules/messages/message.services';
+import { verifyToken } from '@/utils/generateToken';
 
 const registerMessageHandler = (io: Server, socket: Socket): void => {
   socket.on('joinRoom', (room: string) => {
@@ -37,11 +38,44 @@ const registerMessageHandler = (io: Server, socket: Socket): void => {
   });
 
   socket.on('typing', (room: string) => {
-    socket.to(room).emit('typing', socket.id);
+    const token = socket.handshake.auth.token as string;
+    console.log('Raw token:', token);
+    const decodedToken = verifyToken(token);
+    console.log('Decoded token:', decodedToken);
+    let userId: string | undefined;
+
+    if (
+      decodedToken &&
+      typeof decodedToken !== 'string' &&
+      'user' in decodedToken
+    ) {
+      userId = (decodedToken.user as { id: string }).id;
+      console.log('Extracted userId:', userId);
+    }
+    console.log('Backend: Emitting typing event', {
+      socketId: socket.id,
+      userId,
+      room,
+    });
+    socket.to(room).emit('typing', { socketId: socket.id, userId });
   });
 
   socket.on('stopTyping', (room: string) => {
-    socket.to(room).emit('stopTyping', socket.id);
+    const token = socket.handshake.auth.token as string;
+    console.log('Raw token:', token);
+    const decodedToken = verifyToken(token);
+    console.log('Decoded token:', decodedToken);
+    let userId: string | undefined;
+
+    if (
+      decodedToken &&
+      typeof decodedToken !== 'string' &&
+      'user' in decodedToken
+    ) {
+      userId = (decodedToken.user as { id: string }).id;
+      console.log('Extracted userId:', userId);
+    }
+    socket.to(room).emit('stopTyping', { socketId: socket.id, userId });
   });
 
   socket.on('messageSeen', async (payload: any) => {

@@ -32,6 +32,10 @@ export const search = async (req: Request, res: Response): Promise<void> => {
       });
     }
   } catch {
-    return sendResponse(res, { statusCode: 500, success: false, message: 'Internal server error' });
+    return sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: 'Internal server error',
+    });
   }
 };
