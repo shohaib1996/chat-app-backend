@@ -36,8 +36,16 @@ export const getGroupById = async (id: string): Promise<IGroup | null> => {
   return group;
 };
 
-export const getGroups = async (): Promise<IGroup[]> => {
-  const groups = await prisma.group.findMany();
+export const getGroups = async (userId: string): Promise<IGroup[]> => {
+  const groups = await prisma.group.findMany({
+    where: {
+      members: {
+        some: {
+          userId,
+        },
+      },
+    },
+  });
   return groups;
 };
 

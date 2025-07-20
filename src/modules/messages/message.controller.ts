@@ -41,11 +41,11 @@ export const getMessages = async (
   res: Response
 ): Promise<void> => {
   const { senderId, receiverId, groupId } = req.query;
-  const messages = await messageService.getMessages(
-    senderId as string,
-    receiverId as string,
-    groupId as string
-  );
+  const messages = await messageService.getMessages({
+    senderId: senderId as string | undefined,
+    receiverId: receiverId as string | undefined,
+    groupId: groupId as string | undefined,
+  });
   sendResponse(res, {
     statusCode: 200,
     success: true,

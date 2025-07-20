@@ -16,7 +16,9 @@ interface CloudinaryUploadResult {
   // Add other properties you expect from Cloudinary upload result
 }
 
-export const uploadToCloudinary = async (filePath: string): Promise<CloudinaryUploadResult> => {
+export const uploadToCloudinary = async (
+  filePath: string
+): Promise<CloudinaryUploadResult> => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(filePath, (error, result) => {
       if (error) {

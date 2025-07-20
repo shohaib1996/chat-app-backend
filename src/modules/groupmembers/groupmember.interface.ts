@@ -1,9 +1,12 @@
+import { User } from '@prisma/client';
+
 export interface IGroupMember {
   id: string;
   userId: string;
   groupId: string;
   joinedAt: Date;
   isAdmin: boolean;
+  user?: User;
 }
 
 export interface ICreateGroupMemberPayload {

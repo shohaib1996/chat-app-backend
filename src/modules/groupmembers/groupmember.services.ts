@@ -21,6 +21,9 @@ export const getGroupMemberById = async (
 ): Promise<IGroupMember | null> => {
   const groupMember = await prisma.groupMember.findUnique({
     where: { id },
+    include: {
+      user: true,
+    },
   });
   return groupMember;
 };
@@ -38,6 +41,9 @@ export const getGroupMembers = async (
   }
   const groupMembers = await prisma.groupMember.findMany({
     where,
+    include: {
+      user: true,
+    },
   });
   return groupMembers;
 };
@@ -49,8 +55,25 @@ export const updateGroupMember = async (
   const groupMember = await prisma.groupMember.update({
     where: { id },
     data: payload,
+    include: {
+      user: true,
+    },
   });
   return groupMember;
+};
+
+export const getGroupMembersByGroupId = async (
+  groupId: string
+): Promise<IGroupMember[]> => {
+  const groupMembers = await prisma.groupMember.findMany({
+    where: {
+      groupId,
+    },
+    include: {
+      user: true,
+    },
+  });
+  return groupMembers;
 };
 
 export const deleteGroupMember = async (id: string): Promise<IGroupMember> => {

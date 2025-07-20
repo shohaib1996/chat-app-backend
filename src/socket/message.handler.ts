@@ -1,3 +1,4 @@
+import { getGroupMembersByGroupId } from '../modules/groupmembers/groupmember.services';
 import { Server, Socket } from 'socket.io';
 import {
   createMessage,
@@ -18,22 +19,25 @@ const registerMessageHandler = (io: Server, socket: Socket): void => {
   socket.on('sendMessage', async (payload: any) => {
     try {
       const message = await createMessage(payload);
-      io.to(payload.groupId).emit('newMessage', message);
+      const members = await getGroupMembersByGroupId(payload.groupId);
+      members.forEach(member => {
+        if (member.userId !== payload.senderId) {
+          io.to(member.userId).emit('newMessage', message);
+        }
+      });
     } catch (error: unknown) {
+      console.log(error);
       // Handle error, e.g., log it or send an error message back to the client
     }
   });
 
   socket.on('getMessages', async (payload: any) => {
     try {
-      const messages = await getMessages(
-        payload.senderId,
-        payload.receiverId,
-        payload.groupId
-      );
+      const messages = await getMessages(payload);
       socket.emit('messages', messages);
     } catch (error: unknown) {
       // Handle error
+      console.log(error);
     }
   });
 
@@ -79,6 +83,7 @@ const registerMessageHandler = (io: Server, socket: Socket): void => {
       io.to(payload.groupId).emit('messageSeen', message);
     } catch (error: unknown) {
       // Handle error
+      console.log(error);
     }
   });
 };

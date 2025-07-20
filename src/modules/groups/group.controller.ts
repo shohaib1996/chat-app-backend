@@ -39,7 +39,14 @@ export const getGroupById = async (
 };
 
 export const getGroups = async (req: Request, res: Response): Promise<void> => {
-  const groups = await groupServices.getGroups();
+  if (!req.user) {
+    return sendResponse(res, {
+      statusCode: 401,
+      success: false,
+      message: 'Unauthorized',
+    });
+  }
+  const groups = await groupServices.getGroups(req.user.id);
   sendResponse(res, { statusCode: 200, success: true, data: groups });
 };
 

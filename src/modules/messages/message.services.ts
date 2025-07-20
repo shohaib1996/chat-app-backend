@@ -31,23 +31,35 @@ export const getMessageById = async (id: string): Promise<IMessage | null> => {
   return message;
 };
 
-export const getMessages = async (
-  senderId?: string,
-  receiverId?: string,
-  groupId?: string
-): Promise<IMessage[]> => {
-  const messages = await prisma.message.findMany({
-    where: {
+export const getMessages = async ({
+  senderId,
+  receiverId,
+  groupId,
+}: {
+  senderId?: string;
+  receiverId?: string;
+  groupId?: string;
+}): Promise<IMessage[]> => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let where: any = {};
+
+  if (groupId) {
+    where = { groupId };
+  } else if (senderId && receiverId) {
+    where = {
       OR: [
         {
-          AND: [{ senderId: senderId }, { receiverId: receiverId }],
+          AND: [{ senderId }, { receiverId }],
         },
         {
           AND: [{ senderId: receiverId }, { receiverId: senderId }],
         },
       ],
-      groupId: groupId,
-    },
+    };
+  }
+
+  const messages = await prisma.message.findMany({
+    where,
     include: {
       sender: true,
       receiver: true,

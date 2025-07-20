@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { uploadToCloudinary } from './upload.services';
 
 import multer from 'multer';
@@ -7,24 +7,20 @@ import sendResponse from '@/utils/sendResponse';
 
 const upload = multer({ dest: 'uploads/' });
 
-export const uploadSingleImage = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const uploadSingleImage = (req: Request, res: Response) => {
   upload.single('image')(req, res, async err => {
     if (err) {
-      return sendResponse(res,{
+      return sendResponse(res, {
         statusCode: 400,
         success: false,
-        message: "file upload failed"
+        message: 'file upload failed',
       });
     }
     if (!req.file) {
       return sendResponse(res, {
         statusCode: 400,
         success: false,
-        message: "No file upload"
+        message: 'No file upload',
       });
     }
 
