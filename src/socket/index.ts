@@ -21,7 +21,11 @@ const initializeSocket = (io: Server) => {
     console.log('Decoded token:', decodedToken);
     let userId: string | undefined;
 
-    if (decodedToken && typeof decodedToken !== 'string' && 'user' in decodedToken) {
+    if (
+      decodedToken &&
+      typeof decodedToken !== 'string' &&
+      'user' in decodedToken
+    ) {
       userId = (decodedToken.user as { id: string }).id;
       console.log('Extracted userId:', userId);
     }

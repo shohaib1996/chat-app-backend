@@ -39,11 +39,8 @@ const registerMessageHandler = (io: Server, socket: Socket): void => {
 
   socket.on('typing', (room: string) => {
     const token = socket.handshake.auth.token as string;
-    console.log('Raw token:', token);
     const decodedToken = verifyToken(token);
-    console.log('Decoded token:', decodedToken);
     let userId: string | undefined;
-
     if (
       decodedToken &&
       typeof decodedToken !== 'string' &&
@@ -62,9 +59,7 @@ const registerMessageHandler = (io: Server, socket: Socket): void => {
 
   socket.on('stopTyping', (room: string) => {
     const token = socket.handshake.auth.token as string;
-    console.log('Raw token:', token);
     const decodedToken = verifyToken(token);
-    console.log('Decoded token:', decodedToken);
     let userId: string | undefined;
 
     if (

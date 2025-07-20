@@ -6,6 +6,7 @@ import {
   updateUserSchema,
   loginUserSchema,
 } from './user.validation';
+import { authMiddleware } from '@/middleware/auth';
 
 const router = Router();
 
@@ -15,9 +16,10 @@ router.post(
   userController.registerUser
 );
 
-router.get('/profile', userController.getProfile);
+router.get('/profile', authMiddleware, userController.getProfile);
 router.put(
   '/profile',
+  authMiddleware,
   validateRequest(updateUserSchema),
   userController.updateProfile
 );

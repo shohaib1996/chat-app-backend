@@ -4,6 +4,7 @@ import MessageRoutes from '../modules/messages/message.routes';
 import GroupRoutes from '../modules/groups/group.routes';
 import GroupMemberRoutes from '../modules/groupmembers/groupmember.routes';
 import SearchRoutes from '../modules/search/search.routes';
+import UploadRoutes from '../modules/uploads/upload.routes';
 
 const router = Router();
 
@@ -27,6 +28,10 @@ const moduleRoutes = [
   {
     path: '/search',
     route: SearchRoutes,
+  },
+  {
+    path: '/upload',
+    route: UploadRoutes,
   },
 ];
 
